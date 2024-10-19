@@ -1,0 +1,22 @@
+[default]
+src = 'contracts'
+out = 'out'
+libs = ['lib']
+ffi = true
+verbosity = 5
+
+[rpc_endpoints]
+lisk-sepolia = "${LISK_SEPOLIA_RPC_URL}"
+localhost = "${LOCALHOST}"
+
+# Custom chain for lisk-sepolia
+[etherscan]
+lisk-sepolia = { chain = 4202, url = "https://sepolia-blockscout.lisk.com/api", key = "" }
+
+[fmt]
+line_length = 120
+tab_width = 4
+bracket_spacing = true
+
+
+# See more config options https://github.com/foundry-rs/foundry/tree/master/config
