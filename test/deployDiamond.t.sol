@@ -8,9 +8,10 @@ import { OwnershipFacet } from "../contracts/facets/OwnershipFacet.sol";
 import { ERC721Facet } from "../contracts/facets/ERC721Facet.sol";
 import { Diamond } from "../contracts/Diamond.sol";
 import { MerkleFacet } from "../contracts/facets/MerkleFacet.sol";
-import { DiamondUtils } from "./helpers/DiamondUtils.sol";
+import { DiamondUtils } from "../script/helpers/DiamondUtils.sol";
+import { Test, console2 } from "forge-std/Test.sol";
 
-contract DiamondDeployer is DiamondUtils, IDiamondCut {
+contract DiamondDeployer is Test, DiamondUtils, IDiamondCut {
     //contract types of facets to be deployed
     Diamond diamond;
     DiamondCutFacet dCutFacet;

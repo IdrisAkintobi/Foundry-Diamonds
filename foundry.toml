@@ -1,13 +1,28 @@
-[default]
-src = 'contracts'
-out = 'out'
-libs = ['lib']
+[profile.default]
+src = "contracts"
+out = "out"
+libs = ["lib"]
 ffi = true
 verbosity = 5
+solc_version = "0.8.27"
+optimizer = false
+optimizer_runs = 200
+
+sender = '0x090f02fac47A0A4e0f38B0118e58B34d45b30625'
+# tx_origin = '0x090f02fac47A0A4e0f38B0118e58B34d45b30625'
+
+remappings = [
+    "forge-std/=lib/forge-std/src/",
+    "@openzeppelin/=lib/openzeppelin-contracts/",
+    "@chainlink/=lib/chainlink-brownie-contracts",
+]
+
+etherscan_api_key = "${ETHERSCAN_API_KEY}"
 
 [rpc_endpoints]
+holesky = "${HOLESKY_RPC_URL}"
 lisk-sepolia = "${LISK_SEPOLIA_RPC_URL}"
-localhost = "${LOCALHOST}"
+localhost = "http://localhost:8545"
 
 # Custom chain for lisk-sepolia
 [etherscan]
@@ -18,5 +33,4 @@ line_length = 120
 tab_width = 4
 bracket_spacing = true
 
-
-# See more config options https://github.com/foundry-rs/foundry/tree/master/config
+# See more config options https://github.com/foundry-rs/foundry/blob/master/crates/config/README.md#all-options
