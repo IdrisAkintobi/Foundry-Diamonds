@@ -46,6 +46,6 @@ jobs:
 
       - name: Run Forge tests
         run: |
-          ls -R
+          cat script/helpers/merkle-script.ts
           forge test -vvv
         id: test
