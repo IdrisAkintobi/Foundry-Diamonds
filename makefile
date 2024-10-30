@@ -6,7 +6,7 @@ export $(shell sed 's/=.*//' .env)
 .PHONY: check
 check:
 	forge fmt
-	forge build
+	forge build --sizes
 	forge test
 
 # Deployment targets
