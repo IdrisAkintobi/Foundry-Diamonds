@@ -20,11 +20,14 @@ contract DiamondDeployer is Test, DiamondUtils, IDiamondCut {
     ERC721Facet erc721F;
     MerkleFacet mklr;
 
-    // bytes32 merkleRoot = getMerkleTreeRoot();
+    bytes32 merkleRoot;
+
     function setUp() public {
+        merkleRoot = getMerkleTreeRoot();
+
         //deploy facets
         dCutFacet = new DiamondCutFacet();
-        diamond = new Diamond(address(this), address(dCutFacet), "Diamond NFT", "DNFT", getMerkleTreeRoot());
+        diamond = new Diamond(address(this), address(dCutFacet), "Diamond NFT", "DNFT", merkleRoot);
         dLoupe = new DiamondLoupeFacet();
         ownerF = new OwnershipFacet();
         erc721F = new ERC721Facet();
