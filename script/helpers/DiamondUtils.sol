@@ -12,7 +12,7 @@ abstract contract DiamondUtils is Script {
         string[] memory inputs = new string[](4);
         inputs[0] = "bun";
         inputs[1] = "run";
-        inputs[2] = "./script/helpers/merkle-script.ts";
+        inputs[2] = "script/helpers/merkle-script.ts";
         inputs[3] = "getMerkleTreeRoot";
 
         bytes memory res = vm.ffi(inputs);
@@ -28,7 +28,7 @@ abstract contract DiamondUtils is Script {
         string[] memory inputs = new string[](6);
         inputs[0] = "bun";
         inputs[1] = "run";
-        inputs[2] = "./script/helpers/merkle-script.ts";
+        inputs[2] = "script/helpers/merkle-script.ts";
         inputs[3] = "generateMerkleProof";
         inputs[4] = _address;
         inputs[5] = amount;
