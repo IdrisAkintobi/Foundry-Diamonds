@@ -25,6 +25,11 @@ jobs:
         with:
           version: nightly
 
+      - name: Install Bun
+        run: |
+          curl -fsSL https://bun.sh/install | bash
+          curl -fsSL https://bun.sh/install | bash -s "bun-v1.0.0"
+
       - name: Show Forge version
         run: |
           forge --version
@@ -41,8 +46,6 @@ jobs:
 
       - name: Run Forge tests
         run: |
-          ls script/helpers/
-          curl -fsSL https://bun.sh/install | bash
-          curl -fsSL https://bun.sh/install | bash -s "bun-v1.0.0"
+          ls -R
           forge test -vvv
         id: test
