@@ -28,10 +28,6 @@ jobs:
           export PATH="$BUN_INSTALL/bin:$PATH"
           echo "$BUN_INSTALL/bin" >> $GITHUB_PATH  # Persist bun in PATH
 
-      - name: Install Node Dependencies
-        run: |
-          bun install
-
       - name: Check Script File
         run: |
           if [ ! -f "script/helpers/merkle-tree-script.ts" ]; then
