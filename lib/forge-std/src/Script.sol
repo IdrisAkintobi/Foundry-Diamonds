@@ -1,13 +1,27 @@
-// SPDX-License-Identifier: Unlicense
-pragma solidity >=0.6.0 <0.9.0;
+// SPDX-License-Identifier: MIT
+pragma solidity >=0.6.2 <0.9.0;
 
-import "./Vm.sol";
-import "./console.sol";
-import "./console2.sol";
+// 💬 ABOUT
+// Forge Std's default Script.
 
-abstract contract Script {
-    address constant private VM_ADDRESS =
-        address(bytes20(uint160(uint256(keccak256('hevm cheat code')))));
+// 🧩 MODULES
+import {console} from "./console.sol";
+import {console2} from "./console2.sol";
+import {safeconsole} from "./safeconsole.sol";
+import {StdChains} from "./StdChains.sol";
+import {StdCheatsSafe} from "./StdCheats.sol";
+import {stdJson} from "./StdJson.sol";
+import {stdMath} from "./StdMath.sol";
+import {StdStorage, stdStorageSafe} from "./StdStorage.sol";
+import {StdStyle} from "./StdStyle.sol";
+import {StdUtils} from "./StdUtils.sol";
+import {VmSafe} from "./Vm.sol";
 
-    Vm public constant vm = Vm(VM_ADDRESS);
+// 📦 BOILERPLATE
+import {ScriptBase} from "./Base.sol";
+
+// ⭐️ SCRIPT
+abstract contract Script is ScriptBase, StdChains, StdCheatsSafe, StdUtils {
+    // Note: IS_SCRIPT() must return true.
+    bool public IS_SCRIPT = true;
 }
