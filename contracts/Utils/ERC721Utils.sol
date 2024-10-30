@@ -3,7 +3,7 @@
 
 pragma solidity ^0.8.27;
 
-import {IERC721Receiver} from "../interfaces/IERC721Receiver.sol";
+import { IERC721Receiver } from "../interfaces/IERC721Receiver.sol";
 
 /**
  * @dev Library that provide common ERC-721 utility functions.
@@ -15,22 +15,11 @@ import {IERC721Receiver} from "../interfaces/IERC721Receiver.sol";
 library ERC721Utils {
     error ERC721InvalidReceiver(address receiver);
 
-    function checkOnERC721Received(
-        address operator,
-        address from,
-        address to,
-        uint256 tokenId,
-        bytes memory data
-    ) internal {
+    function checkOnERC721Received(address operator, address from, address to, uint256 tokenId, bytes memory data)
+        internal
+    {
         if (to.code.length > 0) {
-            try
-                IERC721Receiver(to).onERC721Received(
-                    operator,
-                    from,
-                    tokenId,
-                    data
-                )
-            returns (bytes4 retval) {
+            try IERC721Receiver(to).onERC721Received(operator, from, tokenId, data) returns (bytes4 retval) {
                 if (retval != IERC721Receiver.onERC721Received.selector) {
                     // Token rejected
                     revert ERC721InvalidReceiver(to);
