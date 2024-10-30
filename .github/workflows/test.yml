@@ -7,6 +7,7 @@ on:
 
 env:
   FOUNDRY_PROFILE: ci
+  FOUNDRY_FFI: true
 
 jobs:
   check:
@@ -28,7 +29,8 @@ jobs:
       - name: Install Bun
         run: |
           curl -fsSL https://bun.sh/install | bash
-          curl -fsSL https://bun.sh/install | bash -s "bun-v1.0.0"
+          export BUN_INSTALL="$HOME/.bun"
+          export PATH="$BUN_INSTALL/bin:$PATH"
 
       - name: Show Forge version
         run: |
