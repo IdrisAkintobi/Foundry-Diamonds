@@ -26,6 +26,7 @@ library LibDiamond {
     error TokenNameOrSymbolCannotBeEmpty();
 
     bytes32 constant DIAMOND_STORAGE_POSITION = keccak256("diamond.standard.diamond.storage");
+    bytes32 constant TOKEN_STORAGE_POSITION = keccak256("diamond.standard.token.storage");
 
     struct FacetAddressAndPosition {
         address facetAddress;
@@ -51,8 +52,13 @@ library LibDiamond {
         // owner of the contract
         address contractOwner;
         /**
-         * ERC721 Storage
+         * Airdrop
          */
+        bytes32 merkleRoot;
+        mapping(address => bool) claimed;
+    }
+
+    struct TokenStorage {
         string tokenName;
         string tokenSymbol;
         uint256 tokenCounter;
@@ -60,17 +66,19 @@ library LibDiamond {
         mapping(address owner => uint256) tokenBalance;
         mapping(uint256 tokenId => address) tokenApproval;
         mapping(address owner => mapping(address operator => bool)) operatorApproval;
-        /**
-         * Airdrop
-         */
-        bytes32 merkleRoot;
-        mapping(address => bool) claimed;
     }
 
     function diamondStorage() internal pure returns (DiamondStorage storage ds) {
         bytes32 position = DIAMOND_STORAGE_POSITION;
         assembly {
             ds.slot := position
+        }
+    }
+
+    function tokenStorage() internal pure returns (TokenStorage storage ts) {
+        bytes32 position = TOKEN_STORAGE_POSITION;
+        assembly {
+            ts.slot := position
         }
     }
 
@@ -87,9 +95,9 @@ library LibDiamond {
         if (bytes(_name).length == 0 || bytes(_symbol).length == 0) {
             revert TokenNameOrSymbolCannotBeEmpty();
         }
-        DiamondStorage storage ds = diamondStorage();
-        ds.tokenName = _name;
-        ds.tokenSymbol = _symbol;
+        TokenStorage storage ts = tokenStorage();
+        ts.tokenName = _name;
+        ts.tokenSymbol = _symbol;
     }
 
     function setMerkleRoot(bytes32 newMerkleRoot) internal {
@@ -220,7 +228,9 @@ library LibDiamond {
                 ds.facetFunctionSelectors[lastFacetAddress].facetAddressPosition = facetAddressPosition;
             }
             ds.facetAddresses.pop();
-            delete ds.facetFunctionSelectors[_facetAddress].facetAddressPosition;
+            delete ds
+                .facetFunctionSelectors[_facetAddress]
+                .facetAddressPosition;
         }
     }
 
