@@ -1,1 +1,1 @@
-forge build --sizes && forge test -vvvvv
+forge build --sizes && forge test

@@ -10,11 +10,8 @@ import { Diamond } from "../contracts/Diamond.sol";
 import { MerkleFacet } from "../contracts/facets/MerkleFacet.sol";
 import { DiamondUtils } from "./helpers/DiamondUtils.sol";
 import { Script, console } from "forge-std/Script.sol";
-import "solidity-stringutils/strings.sol";
 
 contract DiamondDeployerScript is DiamondUtils {
-    using strings for *;
-
     //contract types of facets to be deployed
     Diamond diamond;
     DiamondCutFacet dCutFacet;
@@ -24,18 +21,16 @@ contract DiamondDeployerScript is DiamondUtils {
     MerkleFacet mklr;
 
     bytes32 merkleRoot;
-    uint256 deployerPrivateKey;
     address owner;
 
     function setUp() public {
         merkleRoot = getMerkleTreeRoot();
-        deployerPrivateKey = vm.envUint("DO_NOT_LEAK");
         owner = vm.envAddress("INITIAL_OWNER");
     }
 
     function run() public {
         // Start the broadcast
-        vm.startBroadcast(deployerPrivateKey);
+        vm.startBroadcast();
         //deploy facets
         dCutFacet = new DiamondCutFacet();
         diamond = new Diamond(owner, address(dCutFacet), "Diamond NFT", "DNFT", merkleRoot);
