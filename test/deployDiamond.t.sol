@@ -9,7 +9,7 @@ import { ERC721Facet } from "../contracts/facets/ERC721Facet.sol";
 import { Diamond } from "../contracts/Diamond.sol";
 import { MerkleFacet } from "../contracts/facets/MerkleFacet.sol";
 import { DiamondUtils } from "../script/helpers/DiamondUtils.sol";
-import { Test, console2 } from "forge-std/Test.sol";
+import { Test, console } from "forge-std/Test.sol";
 
 contract DiamondDeployer is DiamondUtils, IDiamondCut, Test {
     //contract types of facets to be deployed
@@ -73,27 +73,49 @@ contract DiamondDeployer is DiamondUtils, IDiamondCut, Test {
         IDiamondCut(address(diamond)).diamondCut(cut, address(0x0), "");
     }
 
-    function testDeployDiamond() public view {
+    function test_DeployDiamond() public view {
         //call a function
         DiamondLoupeFacet(address(diamond)).facetAddresses();
     }
 
-    function testMerkleRootGeneration() public {
+    function test_MerkleRootGeneration() public {
         bytes32 root = getMerkleTreeRoot();
         assertTrue(root.length == 32, "Root byte32");
     }
 
-    function testMerkleRootUpdate() public {
+    function test_MerkleRootUpdate() public {
         bytes32 newRoot = getMerkleTreeRoot();
         bytes memory _calldata = abi.encodeWithSelector(0x4783f0ef, newRoot);
         (bool success,) = (address(diamond)).call(_calldata);
         assertTrue(success);
     }
 
-    function testAirdropClaim() public {
+    function test_AirdropClaim() public {
         address claimant = 0x440Bcc7a1CF465EAFaBaE301D1D7739cbFe09dDA;
         uint8 amount = 1;
         bytes memory merkleProof = getMerkleTreeProof("0x440Bcc7a1CF465EAFaBaE301D1D7739cbFe09dDA", "1");
+        vm.prank(claimant);
+        bytes32[] memory proofBytes = bytesToBytes32Array(merkleProof);
+        bytes memory _calldata = abi.encodeWithSelector(MerkleFacet.claim.selector, amount, proofBytes);
+        (bool success,) = (address(diamond)).call(_calldata);
+        assertTrue(success);
+    }
+
+    function test_MultipleAirdropClaim() public {
+        address claimant = 0x020cA66C30beC2c4Fe3861a94E4DB4A498A35872;
+        uint8 amount = 3;
+        bytes memory merkleProof = getMerkleTreeProof("0x020cA66C30beC2c4Fe3861a94E4DB4A498A35872", "3");
+        vm.prank(claimant);
+        bytes32[] memory proofBytes = bytesToBytes32Array(merkleProof);
+        bytes memory _calldata = abi.encodeWithSelector(MerkleFacet.claim.selector, amount, proofBytes);
+        (bool success,) = (address(diamond)).call(_calldata);
+        assertTrue(success);
+    }
+
+    function testFail_AirdropClaim() public {
+        address claimant = 0x020cA66C30beC2c4Fe3861a94E4DB4A498A35872;
+        uint8 amount = 9;
+        bytes memory merkleProof = getMerkleTreeProof("0x020cA66C30beC2c4Fe3861a94E4DB4A498A35872", "9");
         vm.prank(claimant);
         bytes32[] memory proofBytes = bytesToBytes32Array(merkleProof);
         bytes memory _calldata = abi.encodeWithSelector(MerkleFacet.claim.selector, amount, proofBytes);
