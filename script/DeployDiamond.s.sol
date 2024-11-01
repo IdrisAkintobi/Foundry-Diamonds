@@ -47,7 +47,7 @@ contract DiamondDeployerScript is DiamondUtils {
             IDiamondCut.FacetCut({
                 facetAddress: address(dLoupe),
                 action: IDiamondCut.FacetCutAction.Add,
-                functionSelectors: DiamondUtils.generateSelectors("DiamondLoupeFacet")
+                functionSelectors: generateSelectors("DiamondLoupeFacet")
             })
         );
 
@@ -55,7 +55,7 @@ contract DiamondDeployerScript is DiamondUtils {
             IDiamondCut.FacetCut({
                 facetAddress: address(ownerF),
                 action: IDiamondCut.FacetCutAction.Add,
-                functionSelectors: DiamondUtils.generateSelectors("OwnershipFacet")
+                functionSelectors: generateSelectors("OwnershipFacet")
             })
         );
 
@@ -63,7 +63,7 @@ contract DiamondDeployerScript is DiamondUtils {
             IDiamondCut.FacetCut({
                 facetAddress: address(erc721F),
                 action: IDiamondCut.FacetCutAction.Add,
-                functionSelectors: DiamondUtils.generateSelectors("ERC721Facet")
+                functionSelectors: generateSelectors("ERC721Facet")
             })
         );
 
@@ -71,7 +71,7 @@ contract DiamondDeployerScript is DiamondUtils {
             IDiamondCut.FacetCut({
                 facetAddress: address(mklr),
                 action: IDiamondCut.FacetCutAction.Add,
-                functionSelectors: DiamondUtils.generateSelectors("MerkleFacet")
+                functionSelectors: generateSelectors("MerkleFacet")
             })
         );
 

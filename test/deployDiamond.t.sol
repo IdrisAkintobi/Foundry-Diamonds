@@ -11,7 +11,7 @@ import { MerkleFacet } from "../contracts/facets/MerkleFacet.sol";
 import { DiamondUtils } from "../script/helpers/DiamondUtils.sol";
 import { Test, console2 } from "forge-std/Test.sol";
 
-contract DiamondDeployer is Test, DiamondUtils, IDiamondCut {
+contract DiamondDeployer is DiamondUtils, IDiamondCut, Test {
     //contract types of facets to be deployed
     Diamond diamond;
     DiamondCutFacet dCutFacet;
